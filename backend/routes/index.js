@@ -4,34 +4,32 @@ var categoryController = require('../controllers/categoryController');
 var operationController = require('../controllers/operationController');
 var authController = require('../controllers/authController');
 var userController = require('../controllers/userController');
+const passport = require('passport')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
 
 //operation routes
 
-router.get('/api/operations', operationController.getBalance);
+router.get('/api/operations', passport.authenticate('jwt', {session: false}), operationController.getBalance);
 
-router.get('/api/operation/:idoperation', operationController.getOperation);
+router.get('/api/operation/:operationid', passport.authenticate('jwt', {session: false}), operationController.getOperation);
 
-router.post('/api/operation', operationController.createOperation);
+router.post('/api/operation', passport.authenticate('jwt', {session: false}), operationController.createOperation);
 
-router.delete('/api/operation/:idoperation', operationController.deleteOperation);
+router.delete('/api/operation/:operationid', passport.authenticate('jwt', {session: false}), operationController.deleteOperation);
 
-router.post('/api/operation/:idoperation', operationController.updateOperation);
+router.post('/api/operation/:operationid', passport.authenticate('jwt', {session: false}), operationController.updateOperation);
 
 
 //category routes
 
-router.get('/api/categories', categoryController.getCategories);
+router.get('/api/categories', passport.authenticate('jwt', {session: false}), categoryController.getCategories);
 
-router.post('/api/category', categoryController.createCategory);
+router.post('/api/category', passport.authenticate('jwt', {session: false}), categoryController.createCategory);
 
-router.delete('/api/category/:idcategory', categoryController.deleteCategory);
+router.get('/api/category/:categoryid', passport.authenticate('jwt', {session: false}), passport.authenticate('jwt', {session: false}), categoryController.getAllOperationsOfCategory);
 
-router.post('/api/category/:idcategory', categoryController.updateCategory);
+router.delete('/api/category/:categoryid', passport.authenticate('jwt', {session: false}), categoryController.deleteCategory);
+
 
 //auth routes
 
@@ -40,3 +38,8 @@ router.post('/api/login', authController.postLogin);
 router.post('/api/signup', authController.postSignup);
 
 module.exports = router;
+
+
+//user routes
+
+router.get('/api/user/:userid', passport.authenticate('jwt', {session: false}), userController.getUser)

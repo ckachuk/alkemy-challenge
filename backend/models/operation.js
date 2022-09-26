@@ -3,6 +3,12 @@
 module.exports = (sequelize, DataTypes)=>{
 
     const Operation = sequelize.define('operation', {
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            allowNull: false,
+            primaryKey: true
+        },
         concept: {
             type: DataTypes.STRING,
             allowNull: false,

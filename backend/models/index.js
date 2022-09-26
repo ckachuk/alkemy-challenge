@@ -27,24 +27,36 @@ db.categories = require('./category.js')(sequelize, Sequelize.DataTypes);
 
 //asociation between operation and user (one-to-many)
 db.users.hasMany(db.operations,{
-  foreignKey: 'userId',
+  foreignKey: {
+    name: 'userId',
+    allowNull: false
+  },
   as: 'operation'
 })
 
 db.operations.belongsTo(db.users,{
-  foreignKey: 'userId',
+  foreignKey: {
+    name: 'userId',
+    allowNull: false
+  },
   as: 'user'
 })
 
 
 //asociation between operation and category (one-to-many)
 db.operations.belongsTo(db.categories, {
-  foreignKey: 'categoryId',
+  foreignKey: {
+    name:'categoryId',
+    allowNull: false
+  },
   as: 'category'
 }) 
 
 db.categories.hasMany(db.operations,{
-  foreignKey: 'categoryId',
+  foreignKey: {
+    name:'categoryId',
+    allowNull: false
+  },
   as: 'operation'
 })
 

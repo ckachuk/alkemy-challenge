@@ -1,20 +1,123 @@
+const db = require("../models");
+var {body, validationResult} = require("express-validator");
+const jwt_decode = require('jwt-decode');
+const Operation = db.operations;
+const Category = db.categories;
 
-exports.getBalance = (req, res, next)=>{
-    res.json({status:"OK", message: "Get balance"})
+exports.getBalance = async(req, res, next)=>{
+    const token = req.headers.authorization;
+    const TokenArray = token.split(" ");
+    const tokenDecoded = jwt_decode(TokenArray[1])
+    try{
+        const balance = await Operation.findAll({
+            where:{
+                userId: tokenDecoded.id
+            },
+            include: Category,
+            limit: 10,
+            order: "DESC"
+        })
+
+        res.json({status:"OK", message: "Get the last 10 operations", balance})
+    }catch(err){
+        console.log(err);
+        res.status(400).json({status:"FAILED", message:"Something bad happened"})
+    }
+    
 }
 
-exports.getOperation = (req, res, next)=>{
-    res.json({status:"OK", message: "Get an operation"})
+exports.getOperation = async(req, res, next)=>{
+    try{
+        const operation = await Operation.findAll({
+            where: {
+                id: req.params.operationid
+            }
+        })
+        res.json({status:"OK", message: `You get the operation ${operation.id}`, operation})
+    }catch(err){
+        console.log(err);
+        res.status(400).json({status:"FAILED", message:"Something bad happened"})
+    }
 }
 
-exports.createOperation = (req, res, next)=>{
-    res.json({status:"OK", message: "Create an operation"})
-}
+exports.createOperation = [
+    body('concept', 'Concept does not have to be empty').trim().isLength({min:1}).escape(),
+    body('amount', 'Amount does not have to be zero').trim().isLength({min:1}).escape(),
+    async (req, res, next)=>{
+    var errors = validationResult(req.body);
 
-exports.updateOperation = (req, res, next)=>{
-    res.json({status:"OK", message: "Update an operation"})
-}
+    const token = req.headers.authorization;
+    const TokenArray = token.split(" ");
+    const tokenDecoded = jwt_decode(TokenArray[1])
+
+    const operation = {
+        concept: req.body.concept,
+        amount: req.body.amount,
+        date: req.body.data,
+        type: req.body.type,
+        userId: tokenDecoded.id,
+        categoryId: req.body.categoryId
+    }
+    
+    if(!errors.isEmpty()){
+        res.json({status:"FAILED", message: errors.array()})
+    }
+    else{
+        try{
+            const operationCreated = await Operation.create(operation);
+
+            res.json({status:"OK", message: "Operation has been created", operationCreated})
+        }catch(err){
+            console.log(err);
+            res.status(400).json({status:"FAILED", message:"Something bad happened"})
+        }
+    }
+}]
+
+exports.updateOperation = [
+    body('concept', 'Concept does not have to be empty').trim().isLength({min:1}).escape(),
+    body('amount', 'Amount does not have to be zero').trim().isLength({min:1}).escape(),
+    body('type', 'Name does not have to be empty').trim().isLength({min:1}).escape(),
+    async (req, res, next)=>{
+    var errors = validationResult(req.body);
+
+    const token = req.headers.authorization;
+    const TokenArray = token.split(" ");
+    const tokenDecoded = jwt_decode(TokenArray[1])
+
+    const operation = {
+        concept: req.body.concept,
+        amount: req.body.amount,
+        date: req.body.data,
+        type: req.body.type,
+        userId: tokenDecoded.id,
+        categoryId: req.body.categoryId
+    }
+    
+    if(!errors.isEmpty()){
+        res.json({status:"FAILED", message: errors.array()})
+    }
+    else{
+        Operation.update(operation, {where: {
+                id: req.params.operationid
+        }}).then(()=>{
+            res.json({status:"OK", message: "Operation has been updated"})
+        }).catch((err)=>{
+            console.log(err);
+            res.status(400).json({status:"FAILED", message:"Something bad happened"})
+        })
+    }  
+}]
 
 exports.deleteOperation = (req, res, next)=>{
-    res.json({status:"OK", message: "Delete an operation"})
+    Operation.destroy({
+        where: {
+            id: req.params.operationid
+        }
+    }).then(()=>{
+        res.json({status:"OK", message: "Operation has been deleted"})
+    }).catch((err)=>{
+        console.log(err);
+        res.status(400).json({status:"FAILED", message: "Something wrong happened"})
+    })   
 }

@@ -17,8 +17,11 @@ exports.postLogin = (req, res, next)=>{
             });
         }
         
-        jwt.sign({_id: user._id, username: user.username}, process.env.JWT_KEY, {expiresIn: "24hr"}, (err, token)=>{
-            if(err){return res.status(401).json(err)}
+        jwt.sign({id: user.id, username: user.username}, process.env.JWT_KEY, {expiresIn: "24hr"}, (err, token)=>{
+            if(err){
+                console.log(err);
+                res.status(400).json({status:"FAILED", message:"Something bad happened"})
+            }
 
             res.json({
                 status: "OK",
@@ -48,7 +51,6 @@ exports.postSignup = [
             res.json({status: "FAILED",  message: errors.array()})
         }
         else{
-           
             const checkIfUserExist = async (field, value)=>{
                 const response = await User.findOne({
                     where: {
@@ -63,7 +65,6 @@ exports.postSignup = [
                     return false
                 }
             }
-    
             const userExist = await checkIfUserExist("username", user.username) 
             const emailExist = await checkIfUserExist("email", user.email) 
     
@@ -81,10 +82,10 @@ exports.postSignup = [
                 User.create(user).then(()=>{
                     res.json({status: "OK", message:"The user has been created"})
                 }).catch((err)=>{
-                    res.json({status: "FAILED", message:err})
+                    console.log(err);
+                    res.status(400).json({status:"FAILED", message:"Something bad happened"});
                 })
             }
         }
-
     }
 ]

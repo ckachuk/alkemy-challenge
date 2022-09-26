@@ -3,10 +3,20 @@
 module.exports = (sequelize, DataTypes)=>{
 
     const Operation = sequelize.define('operation', {
-        concept: DataTypes.STRING,
-        amount: DataTypes.FLOAT,
-        date: DataTypes.DATE,
-        type: DataTypes.STRING,
+        concept: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        amount:  {
+            type: DataTypes.FLOAT,
+            allowNull: false
+        },
+        date:  {
+            type: DataTypes.DATE
+        },
+        type: {
+            type: DataTypes.STRING
+        },
     },{});
 
     return Operation;

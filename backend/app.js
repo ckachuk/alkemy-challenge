@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var helmet = require('helmet');
 require('dotenv').config();
 var db = require('./models');
+require('./passport');
 
 var app = express();
 

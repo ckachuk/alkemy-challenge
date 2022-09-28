@@ -20,14 +20,16 @@ interface NewUser{
     username: string,
     email: string,
     password: string,
-    confirmPassword: string
+    confirmPassword?: string
+   
 }
 
-interface NewUserSubmit{
-    username: string,
-    email: string,
-    password: string,
+interface ServerResponse {
+    data: string,
+    status?: string,
+    message?: string
 }
+
 
 const Signup = () => {
 
@@ -35,22 +37,32 @@ const Signup = () => {
 
     const { control, handleSubmit } = useForm<NewUser>();
 
-    const postNewUser = async(newUser: NewUserSubmit)=>{
+    const postNewUser = async(newUser: NewUser)=>{
         const url = 'http://localhost:3000/api/signup'
-        return await axios.post<NewUserSubmit>(url, newUser, {
+        const response = await axios.post<ServerResponse>(url, newUser, {
             headers:{
                 'Content-Type': 'application/json'
             }
         })
+        return response
     }
 
     const newUserMutation = useMutation(postNewUser, {
-        onSuccess: ()=>{
+        onSuccess: (response)=>{
             queryClient.invalidateQueries();
-            Swal.fire({
-                title: 'You are sign up!',
-                icon: 'success'
-            });
+            if(response.data.status ==='FAILED'){
+                Swal.fire({
+                    title: 'Something bad happened',
+                    icon: 'error',
+                    text: response.data.message
+                });
+            }else{
+                Swal.fire({
+                    title: 'You are sign up!',
+                    icon: 'success'
+                });
+            }
+            
         },
         onError: ()=>{
             Swal.fire({
@@ -63,6 +75,12 @@ const Signup = () => {
     const submit = (data: NewUser)=>{
         if(data.password === data.confirmPassword){
             newUserMutation.mutate({username: data.username, email: data.email,  password: data.password})
+        }else{
+            Swal.fire({
+                title: 'Something bad happened',
+                text: 'The passwords do not match',
+                icon: 'error'
+            });
         }
     }
 

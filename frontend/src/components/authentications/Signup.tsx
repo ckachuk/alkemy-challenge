@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from 'react-query'
 import Swal from 'sweetalert2'
 import axios from 'axios';
 
-const loginInputText = [
+const signupInputText = [
     {name: "username", label: "Username", type: "text", minLength: 3},
     {name: "email", label: "Email", type: "text", minLength: 3},
     {name: "password", label: "Password", type: "password", minLength: 8},
@@ -39,12 +39,11 @@ const Signup = () => {
 
     const postNewUser = async(newUser: NewUser)=>{
         const url = 'http://localhost:3000/api/signup'
-        const response = await axios.post<ServerResponse>(url, newUser, {
+        return await axios.post<ServerResponse>(url, newUser, {
             headers:{
                 'Content-Type': 'application/json'
             }
         })
-        return response
     }
 
     const newUserMutation = useMutation(postNewUser, {
@@ -88,7 +87,7 @@ const Signup = () => {
         <Card>
             <CardContent>
                 {
-                    loginInputText.map((input)=>(
+                    signupInputText.map((input)=>(
                         <FormInputText key={input.name} name={input.name} label={input.label} control={control} type={input.type} minLength={input.minLength}/>
                     ))
                 }

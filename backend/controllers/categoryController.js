@@ -8,7 +8,7 @@ exports.getCategories = async(req, res, next)=>{
     try{
         const categories = await Category.findAll()
 
-        res.json({status:"OK", message: "All the categories", category: categories })
+        res.json({status:"OK", message: "All the categories", categories: categories })
     }catch(err){
         console.log(err);
         res.status(400).json({status:"FAILED", message:"Something bad happened"})

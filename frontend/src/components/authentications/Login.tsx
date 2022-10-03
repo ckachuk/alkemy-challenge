@@ -1,14 +1,15 @@
 import React from 'react'
 import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent'
 import { FormInputText } from '../utils/FormInputText';
 import { Button } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useQueryClient, useMutation } from 'react-query'
+import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
-import Swal from 'sweetalert2'
-
+import Swal from 'sweetalert2';
 
 const loginInputText = [
     {name: "username", label: "Username", type: "text", minLength: 3},
@@ -32,61 +33,64 @@ const Login = () => {
     const { control, handleSubmit } = useForm<User>();
 
     
-  const postLogin = async(user: User)=>{
-    const url = 'http://localhost:3000/api/login'
-    return await axios.post<DataObject>(url, user, {
-        headers:{
-            'Content-Type': 'application/json'
-        }
-    })
-}
-const loginMutation = useMutation(postLogin, {
-    onSuccess: (response)=>{
-        queryClient.invalidateQueries();
-        console.log(response.data.token)
-        if(response.data.status ==='FAILED'){
+    const postLogin = async(user: User)=>{
+        const url = 'http://localhost:3000/api/login'
+        return await axios.post<DataObject>(url, user, {
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+    const loginMutation = useMutation(postLogin, {
+        onSuccess: (response)=>{
+            queryClient.invalidateQueries();
+            console.log(response.data.token)
+            if(response.data.status ==='FAILED'){
+                Swal.fire({
+                    title: 'Something bad happened',
+                    icon: 'error',
+                    text: "The username or password are incorrect"
+                });
+            }else{
+                Swal.fire({
+                    title: 'You are sign up!',
+                    icon: 'success'
+                }).then(()=>{
+                    localStorage.setItem('token', response.data.token!);
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
+                    window.location.href = '/operations';
+                });
+            }
+        }, 
+        onError: ()=>{
             Swal.fire({
                 title: 'Something bad happened',
-                icon: 'error',
-                text: "The username or password are incorrect"
-            });
-        }else{
-            Swal.fire({
-                title: 'You are sign up!',
-                icon: 'success'
-            }).then(()=>{
-                localStorage.setItem('token', response.data.token!);
-                localStorage.setItem('user', JSON.stringify(response.data.user));
-                window.location.href = '/operations';
+                text: "The username or password are incorrect",
+                icon: 'error'
             });
         }
-    }, 
-    onError: ()=>{
-        Swal.fire({
-            title: 'Something bad happened',
-            text: "The username or password are incorrect",
-            icon: 'error'
-        });
+    })
+
+    const loginSubmit = (data: User)=>{
+        loginMutation.mutate({username: data.username, password: data.password})
     }
-})
 
-const loginSubmit = (data: User)=>{
-    loginMutation.mutate({username: data.username, password: data.password})
-}
-
-return (
-        <Card>
-            <CardContent>
-                {
-                    loginInputText.map((input)=>(
-                        <FormInputText key={input.name} name={input.name} label={input.label} control={control} type={input.type} minLength={input.minLength}/>
-                    ))
-                }
-            </CardContent>
-            <CardActions sx={{display:'flex', justifyContent:'center', mb: 2}}>
-                <Button variant='contained' onClick={handleSubmit(loginSubmit)}>Login</Button>
-            </CardActions>
-        </Card>
+    return (
+        <Box sx={{display:'flex', justifyContent:'center'}}>
+            <Card sx={{display:'flex', justifyContent:'center', flexDirection:'column', mt: 30, minWidth:700}}>
+                <CardContent>
+                    <Typography variant='h4' sx={{mb:4, mt:2}}>Log In</Typography>
+                    {
+                        loginInputText.map((input)=>(
+                            <FormInputText key={input.name} name={input.name} label={input.label} control={control} type={input.type} minLength={input.minLength}/>
+                        ))
+                    }
+                </CardContent>
+                <CardActions sx={{display:'flex', justifyContent:'center', mb: 2}}>
+                    <Button variant='contained' onClick={handleSubmit(loginSubmit)}>Login</Button>
+                </CardActions>
+            </Card>
+        </Box>
     )
 }
 

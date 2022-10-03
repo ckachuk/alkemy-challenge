@@ -1,5 +1,7 @@
 import React from 'react'
 import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent'
 import { FormInputText } from '../utils/FormInputText';
@@ -84,18 +86,22 @@ const Signup = () => {
     }
 
     return(
-        <Card>
-            <CardContent>
-                {
-                    signupInputText.map((input)=>(
-                        <FormInputText key={input.name} name={input.name} label={input.label} control={control} type={input.type} minLength={input.minLength}/>
-                    ))
-                }
-            </CardContent>
-            <CardActions sx={{display:'flex', justifyContent:'center', mb: 2}}>
-                <Button variant='contained' onClick={handleSubmit(submit)}>Sign up</Button>
-            </CardActions>
-        </Card>
+        <Box sx={{display:'flex', justifyContent:'center'}}>
+            <Card sx={{display:'flex', justifyContent:'center', flexDirection:'column', mt: 15, minWidth:1000}}>
+                <CardContent>
+                    <Typography variant='h4' sx={{mb:4, mt:2}}>Please sign up</Typography>
+                    {
+                        signupInputText.map((input)=>(
+                            <FormInputText key={input.name} name={input.name} label={input.label} control={control} type={input.type} minLength={input.minLength}/>
+                        ))
+                    }
+                </CardContent>
+                <CardActions sx={{display:'flex', justifyContent:'center', mb: 2}}>
+                    <Button variant='contained' onClick={handleSubmit(submit)}>Sign up</Button>
+                </CardActions>
+          </Card>
+        </Box>
+       
     )
 }
 

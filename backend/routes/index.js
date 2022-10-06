@@ -9,8 +9,9 @@ const passport = require('passport')
 
 //operation routes
 
-router.get('/api/operations', passport.authenticate('jwt', {session: false}), operationController.getBalance);
+router.get('/api/operations', passport.authenticate('jwt', {session: false}), operationController.getAllOperations);
 
+router.get('/api/operations/balance', passport.authenticate('jwt', {session: false}), operationController.getBalance);
 
 router.get('/api/operations/incomes', passport.authenticate('jwt', {session: false}), operationController.getIncomeOperations);
 

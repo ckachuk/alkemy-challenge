@@ -13,9 +13,11 @@ exports.getBalance = async(req, res, next)=>{
             where:{
                 userId: tokenDecoded.id
             },
-            include: Category,
+            include: [{
+                model: Category,
+                as: 'category'
+            }],
             limit: 10,
-            order: "DESC"
         })
 
         res.json({status:"OK", message: "Get the last 10 operations", balance})
@@ -24,6 +26,50 @@ exports.getBalance = async(req, res, next)=>{
         res.status(400).json({status:"FAILED", message:"Something bad happened"})
     }
     
+}
+
+exports.getIncomeOperations = async(req, res, next)=>{
+    const token = req.headers.authorization;
+    const TokenArray = token.split(" ");
+    const tokenDecoded = jwt_decode(TokenArray[1])
+    try{
+        const incomeOperations = await Operation.findAll({
+            where:{
+                userId: tokenDecoded.id,
+                type: 'Income'
+            },
+            include: [{
+                model: Category,
+                as: 'category'
+            }],
+        })
+        res.json({status:"OK", message: "Income type operations ", incomeOperations})
+    }catch(err){
+        console.log(err);
+        res.status(400).json({status:"FAILED", message:"Something bad happened"})
+    }
+}
+
+exports.getExpenseOperations = async(req, res, next)=>{
+    const token = req.headers.authorization;
+    const TokenArray = token.split(" ");
+    const tokenDecoded = jwt_decode(TokenArray[1])
+    try{
+        const expensesOperations = await Operation.findAll({
+            where:{
+                userId: tokenDecoded.id,
+                type: 'Expense'
+            },
+            include: [{
+                model: Category,
+                as: 'category'
+            }],
+        })
+        res.json({status:"OK", message: "Expense type operations", expensesOperations})
+    }catch(err){
+        console.log(err);
+        res.status(400).json({status:"FAILED", message:"Something bad happened"})
+    }
 }
 
 exports.getOperation = async(req, res, next)=>{

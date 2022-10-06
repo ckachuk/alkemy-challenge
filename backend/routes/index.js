@@ -11,6 +11,11 @@ const passport = require('passport')
 
 router.get('/api/operations', passport.authenticate('jwt', {session: false}), operationController.getBalance);
 
+
+router.get('/api/operations/incomes', passport.authenticate('jwt', {session: false}), operationController.getIncomeOperations);
+
+router.get('/api/operations/expenses', passport.authenticate('jwt', {session: false}), operationController.getExpenseOperations);
+
 router.get('/api/operation/:operationid', passport.authenticate('jwt', {session: false}), operationController.getOperation);
 
 router.post('/api/operation', passport.authenticate('jwt', {session: false}), operationController.createOperation);

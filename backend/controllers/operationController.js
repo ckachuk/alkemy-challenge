@@ -28,6 +28,29 @@ exports.getBalance = async(req, res, next)=>{
     
 }
 
+exports.getAllOperations = async(req, res, next)=>{
+    const token = req.headers.authorization;
+    const TokenArray = token.split(" ");
+    const tokenDecoded = jwt_decode(TokenArray[1])
+    try{
+        const allOperations = await Operation.findAll({
+            where:{
+                userId: tokenDecoded.id
+            },
+            include: [{
+                model: Category,
+                as: 'category'
+            }],
+        })
+
+        res.json({status:"OK", message: "All operations", allOperations})
+    }catch(err){
+        console.log(err);
+        res.status(400).json({status:"FAILED", message:"Something bad happened"})
+    }
+    
+}
+
 exports.getIncomeOperations = async(req, res, next)=>{
     const token = req.headers.authorization;
     const TokenArray = token.split(" ");

@@ -8,7 +8,7 @@ import { FormInputText } from '../utils/FormInputText';
 import { useForm } from 'react-hook-form';
 import { Button } from '@mui/material';
 import { useMutation, useQueryClient } from 'react-query'
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import axios from 'axios';
 
 const signupInputText = [
@@ -40,7 +40,7 @@ const Signup = () => {
     const { control, handleSubmit } = useForm<NewUser>();
 
     const postNewUser = async(newUser: NewUser)=>{
-        const url = 'http://localhost:3000/api/signup'
+        const url = `${process.env.REACT_APP_BASE_URL}/signup`
         return await axios.post<ServerResponse>(url, newUser, {
             headers:{
                 'Content-Type': 'application/json'

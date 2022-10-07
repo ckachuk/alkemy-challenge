@@ -23,7 +23,7 @@ function CategoryActions({categoryId}: CategoryActionsProps) {
   const queryClient = useQueryClient();
 
   const deleteCategory = async()=>{
-    const url = `http://localhost:3000/api/category/${categoryId}`;
+    const url = `${process.env.REACT_APP_BASE_URL}/category/${categoryId}`;
       return await axios.delete(url, {
         headers: {
           'Authorization' : `Bearer ${localStorage.getItem("token")}`

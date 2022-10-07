@@ -21,7 +21,7 @@ interface ObjectCategory{
 function Categories() {
 
     const { isLoading, isError, data }  = useQuery<ICategories, Error>('categories', async()=>{
-        const response =  await axios.get('http://localhost:3000/api/categories',{
+        const response =  await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`,{
             headers: {
                 'Authorization' : `Bearer ${localStorage.getItem("token")}`
             }

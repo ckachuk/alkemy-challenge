@@ -45,7 +45,7 @@ function CategoryOperations() {
   const [operations, setOperations] = useState<Operations[]>([])
 
   const { isError, isLoading, data } = useQuery('categoryOperation', async()=>{
-    const url = `http://localhost:3000/api/category/${categoryId}`
+    const url = `${process.env.REACT_APP_BASE_URL}/category/${categoryId}`
     const response = await axios.get(url, {
       headers: {
         'Content-Type': 'application/json',

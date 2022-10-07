@@ -39,7 +39,7 @@ function NewCategoryModal() {
   const queryClient = useQueryClient();
 
   const postCategory = async(category : Category)=>{
-    const url = 'http://localhost:3000/api/category'
+    const url = `${process.env.REACT_APP_BASE_URL}/category`
     return await axios.post<DataObject>(url, category, {
       headers: {
         'Content-Type': 'application/json',

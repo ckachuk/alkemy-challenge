@@ -11,6 +11,7 @@ import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+
 const loginInputText = [
     {name: "username", label: "Username", type: "text", minLength: 3},
     {name: "password", label: "Password", type: "password", minLength: 8},
@@ -31,10 +32,11 @@ interface DataObject{
 const Login = () => {
     const queryClient = useQueryClient()
     const { control, handleSubmit } = useForm<User>();
-
+    
     
     const postLogin = async(user: User)=>{
-        const url = 'http://localhost:3000/api/login'
+        const url  = `${process.env.REACT_APP_BASE_URL}/login`;
+
         return await axios.post<DataObject>(url, user, {
             headers:{
                 'Content-Type': 'application/json'
@@ -44,12 +46,11 @@ const Login = () => {
     const loginMutation = useMutation(postLogin, {
         onSuccess: (response)=>{
             queryClient.invalidateQueries();
-            console.log(response.data.token)
             if(response.data.status ==='FAILED'){
                 Swal.fire({
                     title: 'Something bad happened',
                     icon: 'error',
-                    text: "The username or password are incorrect"
+                    text:  "The username or password are incorrect"
                 });
             }else{
                 Swal.fire({

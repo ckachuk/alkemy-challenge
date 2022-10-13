@@ -29,13 +29,25 @@ interface DataObject{
     user?: object
 }
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+
 const Login = () => {
     const queryClient = useQueryClient()
     const { control, handleSubmit } = useForm<User>();
     
     
     const postLogin = async(user: User)=>{
-        const url  = `${process.env.REACT_APP_BASE_URL}/login`;
+        const url  = `http://localhost:3000/api/login`;
 
         return await axios.post<DataObject>(url, user, {
             headers:{
@@ -47,14 +59,13 @@ const Login = () => {
         onSuccess: (response)=>{
             queryClient.invalidateQueries();
             if(response.data.status ==='FAILED'){
-                Swal.fire({
-                    title: 'Something bad happened',
+                Toast.fire({
                     icon: 'error',
                     text:  "The username or password are incorrect"
                 });
             }else{
-                Swal.fire({
-                    title: 'You are sign up!',
+                Toast.fire({
+                    text: 'You are sign up!',
                     icon: 'success'
                 }).then(()=>{
                     localStorage.setItem('token', response.data.token!);
@@ -64,7 +75,7 @@ const Login = () => {
             }
         }, 
         onError: ()=>{
-            Swal.fire({
+            Toast.fire({
                 title: 'Something bad happened',
                 text: "The username or password are incorrect",
                 icon: 'error'

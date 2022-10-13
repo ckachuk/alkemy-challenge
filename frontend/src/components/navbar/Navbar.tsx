@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { Typography } from "@mui/material";
 
-interface IProps{
+interface NavBarProps{
     currentUser:{
         token: string | null,
         user: {
@@ -16,7 +16,7 @@ interface IProps{
 }
 
 
-function NavbarLogged({currentUser, setCurrentUserToNull}: IProps){
+function NavbarLogged({currentUser, setCurrentUserToNull}: NavBarProps){
     const navigate = useNavigate();
 
     const handleLogOut  = ()=>{
@@ -26,9 +26,13 @@ function NavbarLogged({currentUser, setCurrentUserToNull}: IProps){
     }
     return(
         <>
-            <Button onClick={handleLogOut}  sx={{color:'white'}}>Log out</Button>
+            <Box sx={{ flexGrow: 1 }}>
+                <Link to='/'><Button  sx={{color:'white'}}>Homepage</Button></Link>
+            </Box>
+            <Typography sx={{mr:2}}>Hi {currentUser?.user?.username}</Typography>
             <Link to='categories'><Button  sx={{color:'white'}}>Categories</Button></Link>
-            <Typography>Hi {currentUser?.user?.username}</Typography>
+            <Link to='operations'><Button  sx={{color:'white'}}>Operations</Button></Link>
+            <Button onClick={handleLogOut}  sx={{color:'white'}}>Log out</Button>
         </>
     )
 }
@@ -36,18 +40,18 @@ function NavbarLogged({currentUser, setCurrentUserToNull}: IProps){
 function NavbarWithoutLogin(){
     return(
         <>
+            <Typography sx={{flexGrow: 1}}>Homepage</Typography>
             <Link to='login'><Button  sx={{color:'white'}}>Login</Button></Link>
             <Link to='signup'><Button  sx={{color:'white'}}>SignUp</Button></Link>
         </>
     )
 }
 
-function Navbar({currentUser, setCurrentUserToNull}: IProps) {
+function Navbar({currentUser, setCurrentUserToNull}: NavBarProps) {
   return (
      <Box sx={{ flexGrow: 1 }}>
-      <AppBar>
+      <AppBar sx={{backgroundColor: '#b55b59'}}>
         <Toolbar>
-            <Typography sx={{flexGrow: 1}}>Homepage</Typography>
              {currentUser?.token !== null ? (<NavbarLogged currentUser={currentUser} setCurrentUserToNull={setCurrentUserToNull}/>) : (<NavbarWithoutLogin/>) }
         </Toolbar>
       </AppBar>

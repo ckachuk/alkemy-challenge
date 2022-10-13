@@ -51,14 +51,13 @@ function CategoryActions({categoryId}: CategoryActionsProps) {
     Swal.fire({
       title: 'Are you sure you want to eliminate the category?',
       showCancelButton: true,
-      confirmButtonText: 'OK',
+      confirmButtonText: 'YES',
       icon:'warning'
     }).then((result) => {
       if (result.isConfirmed) {
         deleteCategoryMutation.mutate()
       } 
     })
-   
   }
 
   return (

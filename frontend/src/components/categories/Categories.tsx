@@ -48,9 +48,9 @@ function Categories() {
                 </Box>
             ) : null}
             {
-                data?.categories.map((item: ObjectCategory) =>(
+                data?.categories !== undefined? data.categories.map((item: ObjectCategory) =>(
                     <Category key={item.name} category={item}/> 
-                ))
+                )): (<CircularProgress/>)
             }
                
         </Box>

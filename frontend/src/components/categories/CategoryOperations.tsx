@@ -13,21 +13,22 @@ function operationFactory(
   amount: number,
   type: string,
   date: Date |null,
-  category: string
+  category: string,
+  operationId: string
 ){
-  return { id, concept, amount, type, date, category }  
+  return { id, concept, amount, type, date, category, operationId }  
 }
 
-interface ItemOperation{
-  id: string, 
-  concept: string, 
+interface Operation{
+  id: string,
+  concept: string,
   amount: number,
-  date: Date | null,
-  createAt: string,
-  updateAt: string,
   type: string,
-  userId: string,
-  categoryId: string
+  date: Date,
+  category: {
+    id: string,
+    name: string
+  }
 }
 
 interface Operations{
@@ -36,7 +37,8 @@ interface Operations{
   amount: number,
   type: string,
   date: Date,
-  category: string
+  category: string,
+  operationId: string
 }
 
 function CategoryOperations() {
@@ -54,12 +56,11 @@ function CategoryOperations() {
     })
     return response.data
   })
-  console.log(isLoading)
-
+  
   useEffect(()=>{
     const populateOperations = ()=>{
-      const arrayOperations = data !== undefined? data.operations.map((item: ItemOperation, index:number)=>{
-        return  operationFactory(index.toString(), item.concept, item.amount, item.type, item.date, data.category.name)
+      const arrayOperations = data !== undefined? data.operations.map((item: Operation, index:number)=>{
+        return  operationFactory(index.toString(), item.concept, item.amount, item.type, item.date, data.category.name, item.id)
       }): null
 
       setOperations(arrayOperations)

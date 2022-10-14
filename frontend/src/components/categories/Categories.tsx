@@ -17,6 +17,17 @@ interface ObjectCategory{
     name: string
 }
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'bottom-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
 
 function Categories() {
 
@@ -30,7 +41,7 @@ function Categories() {
     })
 
     if(isError){
-        Swal.fire({
+        Toast.fire({
             title: 'Something bad happened',
             icon: 'error'
         })

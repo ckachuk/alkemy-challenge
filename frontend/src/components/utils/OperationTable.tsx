@@ -42,7 +42,7 @@ interface OperationTableProps{
 function OperationTable({operations}: OperationTableProps) {
   const rows = operations ? operations: [] 
   return (
-    <Box sx={{ height: 500, minWidth: 1350 , maxWidth: 1350}}>
+    <Box sx={{ height: 500,minWidth: 1325, maxWidth: 1325}}>
     <DataGrid
       sx={{backgroundColor: 'white'}}
       rows={rows}

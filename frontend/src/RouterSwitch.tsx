@@ -11,6 +11,7 @@ import Navbar from './components/navbar/Navbar';
 import Categories from './components/categories/Categories';
 import CategoryOperations from './components/categories/CategoryOperations';
 import OperationForm from './components/operations/OperationForm';
+import Homepage from './components/Homepage';
 
 const queryClient = new QueryClient()
 
@@ -74,6 +75,11 @@ function RouterSwitch() {
                     <Routes>  
                         <Route path="login" element={currentUser.token !== null? (<Navigate to="/operations" replace />): (<Login/>)}/>
                         <Route path="signup" element={currentUser.token !== null? (<Navigate to="/operations" replace />): (<Signup/>)}/>
+                        <Route path="" element={
+                        <ProtectedRoute currentUser={currentUser} setCurrentUserToNull={setCurrentUserToNull}>
+                            <Homepage/>
+                        </ProtectedRoute>
+                        }/>
                         <Route path="operations" element={
                         <ProtectedRoute currentUser={currentUser} setCurrentUserToNull={setCurrentUserToNull}>
                             <Operations />

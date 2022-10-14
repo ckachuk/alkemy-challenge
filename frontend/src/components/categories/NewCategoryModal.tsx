@@ -74,7 +74,7 @@ function NewCategoryModal() {
 
   return (
     <Box>
-      <Button onClick={handleOpen} variant='contained' >Create category</Button>
+      <Button onClick={handleOpen} variant='contained' sx={{backgroundColor: '#b55b59', "&:hover": { backgroundColor:'white', color:'#b55b59'}}} >Create category</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -83,11 +83,11 @@ function NewCategoryModal() {
       >
         <Card sx={style}>
           <CardContent>
-            <Typography variant='h6'>Create a new category</Typography>
+            <Typography variant='h6' sx={{mb:2}}>Create a new category</Typography>
             <FormInputText name='name' label='Insert category name' type='text' minLength={3} control={control}/>
           </CardContent>
-          <CardActions sx={{display:'flex', justifyContent:'flex-end'}}>
-            <Button variant='contained' onClick={handleSubmit(submitCategory)}>Create</Button>
+          <CardActions sx={{display:'flex', justifyContent:'center'}}>
+            <Button variant='contained' sx={{backgroundColor:"#b55b59","&:hover": { backgroundColor:'white', color:'#b55b59'}}} onClick={handleSubmit(submitCategory)}>Create</Button>
           </CardActions>
         </Card>
       </Modal>

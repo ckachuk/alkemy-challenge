@@ -6,6 +6,7 @@ import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 import Swal from 'sweetalert2';
 import OperationTable from '../utils/OperationTable';
+import { Typography } from '@mui/material';
 
 function operationFactory(
   id:string,
@@ -77,13 +78,18 @@ function CategoryOperations() {
 }
 
   return (
-    <Box sx={{m:40}}>
+    <Box>
+      <Box sx={{display:'flex', justifyContent:'center', mt:20}}>
+        <Typography variant='h4' sx={{color:'white'}}>Operations of the category: {data.category.name}</Typography>
+      </Box>
       {isLoading ? (
-                <Box sx={{display:'flex', justifyContent:'center', mt:15}}>
+                <Box sx={{display:'flex', justifyContent:'center', mt:10}}>
                     <CircularProgress/>
-                </Box>
-            ) : <OperationTable operations={operations}/>}
-      
+                </Box>) : null}
+      {data !==undefined ? 
+      (<Box sx={{display:'flex', justifyContent:'center', mt:10}}>
+                        <OperationTable operations={operations}/>
+      </Box>): (null)}
     </Box>
   )
 }

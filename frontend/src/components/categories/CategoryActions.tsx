@@ -64,7 +64,7 @@ function CategoryActions({categoryId}: CategoryActionsProps) {
     <Box className='divPostActions' sx={{display: 'flex', justifyContent: 'center', ml:5}}>
       <Card>
         <CardActions sx={{display: 'flex', justifyContent: 'center'}}>
-          <Fab size="small" color="primary" onClick={handleDelete}><DeleteForeverIcon/></Fab>
+          <Fab size="small" onClick={handleDelete}><DeleteForeverIcon/></Fab>
         </CardActions>  
       </Card>
     </Box>

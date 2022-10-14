@@ -23,7 +23,7 @@ function Category({category}: CategoryProps) {
         <Box sx={{display:'flex', justifyContent:'center', m:10}}>
             <Card sx={{display:'flex', justifyContent:'center', minWidth:600}}>
                 <CardActions>
-                    <Link to={url} ><Button>{category.name}</Button></Link>  
+                    <Link to={url} ><Button   sx={{color:'#b55b59', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>{category.name}</Button></Link>  
                 </CardActions>    
             </Card>
             <CategoryActions categoryId={category.id}/> 

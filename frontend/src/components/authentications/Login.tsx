@@ -99,7 +99,7 @@ const Login = () => {
                     }
                 </CardContent>
                 <CardActions sx={{display:'flex', justifyContent:'center', mb: 2}}>
-                    <Button variant='contained' onClick={handleSubmit(loginSubmit)}>Login</Button>
+                    <Button variant='contained' size='large' onClick={handleSubmit(loginSubmit)} sx={{mb:2 ,backgroundColor:'#b55b59', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>Login</Button>
                 </CardActions>
             </Card>
         </Box>

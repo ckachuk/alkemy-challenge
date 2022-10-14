@@ -27,12 +27,12 @@ function NavbarLogged({currentUser, setCurrentUserToNull}: NavBarProps){
     return(
         <>
             <Box sx={{ flexGrow: 1 }}>
-                <Link to='/'><Button  sx={{color:'white'}}>Homepage</Button></Link>
+                <Link to='/'><Button   sx={{color:'white', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>Homepage</Button></Link>
             </Box>
             <Typography sx={{mr:2}}>Hi {currentUser?.user?.username}</Typography>
-            <Link to='categories'><Button  sx={{color:'white'}}>Categories</Button></Link>
-            <Link to='operations'><Button  sx={{color:'white'}}>Operations</Button></Link>
-            <Button onClick={handleLogOut}  sx={{color:'white'}}>Log out</Button>
+            <Link to='categories'><Button  sx={{color:'white', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>Categories</Button></Link>
+            <Link to='operations'><Button  sx={{color:'white', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>Operations</Button></Link>
+            <Button onClick={handleLogOut}   sx={{color:'white', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>Log out</Button>
         </>
     )
 }
@@ -41,8 +41,8 @@ function NavbarWithoutLogin(){
     return(
         <>
             <Typography sx={{flexGrow: 1}}>Homepage</Typography>
-            <Link to='login'><Button  sx={{color:'white'}}>Login</Button></Link>
-            <Link to='signup'><Button  sx={{color:'white'}}>SignUp</Button></Link>
+            <Link to='login'><Button   sx={{color:'white', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>Login</Button></Link>
+            <Link to='signup'><Button   sx={{color:'white', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>SignUp</Button></Link>
         </>
     )
 }

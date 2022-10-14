@@ -54,7 +54,8 @@ interface DataResponse{
         category: {
             id: string,
             name: string,
-        }
+        },
+        categoryId: string
     }
 }
 
@@ -160,14 +161,14 @@ function OperationForm() {
 
     return (
         <Box sx={{display:'flex', justifyContent:'center', width: '100%'}}>
-            <Card sx={{ minWidth: 800, mt: 30}}>
+            <Card sx={{ minWidth: 800, mt: 20}}>
                 {isLoadingCategories || isLoadingOperation ? (
                     <Box sx={{display:'flex', justifyContent:'center', mt:15}}>
                         <CircularProgress/>
                     </Box>
                 ) : null}
                 <CardContent sx={{display:'flex', justifyContent:'center', flexDirection:'column'}}>
-                    <Typography variant='h3' sx={{mt:2, mb:5}}>Operation form</Typography>
+                    <Typography variant='h3' sx={{mt:2, mb:5}}>{operationId !== undefined? 'Update operation' : 'Create operation'}</Typography>
                    {operationInputText.map((input)=>(
                        <FormInputText key={input.name} name={input.name} label={input.label} control={control} type={input.type} minLength={input.minLength}/>
                    ))}
@@ -177,7 +178,7 @@ function OperationForm() {
                 </CardContent>
                     
                 <CardActions sx={{display:'flex', justifyContent:'center', mt:2}}>
-                    <Button variant='contained' onClick={handleSubmit(submitOperation)}>{operationId !== undefined? 'Update operation' :'Create operation'}</Button>
+                    <Button variant='contained' onClick={handleSubmit(submitOperation)} sx={{mb:2 ,backgroundColor:'#b55b59', "&:hover": { backgroundColor:'#282c34', color:'white'}}}>{operationId !== undefined? 'Update operation' :'Create operation'}</Button>
                 </CardActions>
             </Card>
         </Box>        

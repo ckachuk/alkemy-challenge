@@ -20,7 +20,7 @@ exports.getBalance = async(req, res, next)=>{
             limit: 10,
         })
 
-        res.json({status:"OK", message: "Get the last 10 operations", balance})
+        res.json({status:"OK", message: "Get the last 10 operations", operations: balance})
     }catch(err){
         console.log(err);
         res.status(400).json({status:"FAILED", message:"Something bad happened"})
@@ -43,7 +43,7 @@ exports.getAllOperations = async(req, res, next)=>{
             }],
         })
 
-        res.json({status:"OK", message: "All operations", allOperations})
+        res.json({status:"OK", message: "All operations", operations: allOperations})
     }catch(err){
         console.log(err);
         res.status(400).json({status:"FAILED", message:"Something bad happened"})
@@ -66,7 +66,7 @@ exports.getIncomeOperations = async(req, res, next)=>{
                 as: 'category'
             }],
         })
-        res.json({status:"OK", message: "Income type operations ", incomeOperations})
+        res.json({status:"OK", message: "Income type operations ", operations: incomeOperations})
     }catch(err){
         console.log(err);
         res.status(400).json({status:"FAILED", message:"Something bad happened"})
@@ -88,7 +88,7 @@ exports.getExpenseOperations = async(req, res, next)=>{
                 as: 'category'
             }],
         })
-        res.json({status:"OK", message: "Expense type operations", expensesOperations})
+        res.json({status:"OK", message: "Expense type operations", operations: expensesOperations})
     }catch(err){
         console.log(err);
         res.status(400).json({status:"FAILED", message:"Something bad happened"})
@@ -97,10 +97,14 @@ exports.getExpenseOperations = async(req, res, next)=>{
 
 exports.getOperation = async(req, res, next)=>{
     try{
-        const operation = await Operation.findAll({
+        const operation = await Operation.findOne({
             where: {
                 id: req.params.operationid
-            }
+            },
+            include: [{
+                model: Category,
+                as: 'category'
+            }],
         })
         res.json({status:"OK", message: `You get the operation ${operation.id}`, operation})
     }catch(err){
@@ -122,7 +126,7 @@ exports.createOperation = [
     const operation = {
         concept: req.body.concept,
         amount: req.body.amount,
-        date: req.body.data,
+        date: req.body.date,
         type: req.body.type,
         userId: tokenDecoded.id,
         categoryId: req.body.categoryId
@@ -158,7 +162,6 @@ exports.updateOperation = [
         concept: req.body.concept,
         amount: req.body.amount,
         date: req.body.data,
-        type: req.body.type,
         userId: tokenDecoded.id,
         categoryId: req.body.categoryId
     }

@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes)=>{
             type: DataTypes.DATE
         },
         type: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false
         },
     },{});
 

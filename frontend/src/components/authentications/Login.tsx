@@ -10,24 +10,13 @@ import { useForm } from 'react-hook-form';
 import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from "react-router-dom";
+import {User, ServerResponseLogin} from '../interfaces/appInterfaces';
+
 
 const loginInputText = [
     {name: "username", label: "Username", type: "text", minLength: 3},
     {name: "password", label: "Password", type: "password", minLength: 8},
 ]
-
-interface User {
-    username: string,
-    password: string
-}
-  
-interface DataObject{
-    status?: string,
-    message?: string,
-    token?: string,
-    user?: object
-}
 
 const Toast = Swal.mixin({
     toast: true,
@@ -44,12 +33,11 @@ const Toast = Swal.mixin({
 const Login = () => {
     const queryClient = useQueryClient()
     const { control, handleSubmit } = useForm<User>();
-    const navigate = useNavigate();
     
     const postLogin = async(user: User)=>{
         const url  = `http://localhost:3000/api/login`;
 
-        return await axios.post<DataObject>(url, user, {
+        return await axios.post<ServerResponseLogin>(url, user, {
             headers:{
                 'Content-Type': 'application/json'
             }

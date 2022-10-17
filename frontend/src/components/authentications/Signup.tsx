@@ -7,7 +7,8 @@ import CardContent from '@mui/material/CardContent'
 import { FormInputText } from '../utils/FormInputText';
 import { useForm } from 'react-hook-form';
 import { Button } from '@mui/material';
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query';
+import {NewUser, ServerResponseSignUp} from "../interfaces/appInterfaces";
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
@@ -18,20 +19,6 @@ const signupInputText = [
     {name: "confirmPassword", label: "Confirm password", type: "password", minLength: 8}
 ]
 
-interface NewUser{
-    username: string,
-    email: string,
-    password: string,
-    confirmPassword?: string
-   
-}
-
-interface ServerResponse {
-    data: string,
-    status?: string,
-    message?: string
-}
-
 
 const Signup = () => {
 
@@ -41,7 +28,7 @@ const Signup = () => {
 
     const postNewUser = async(newUser: NewUser)=>{
         const url = `${process.env.REACT_APP_BASE_URL}/signup`
-        return await axios.post<ServerResponse>(url, newUser, {
+        return await axios.post<ServerResponseSignUp>(url, newUser, {
             headers:{
                 'Content-Type': 'application/json'
             }

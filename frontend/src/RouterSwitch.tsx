@@ -73,8 +73,8 @@ function RouterSwitch() {
                 <BrowserRouter>
                     <Navbar currentUser={currentUser} setCurrentUserToNull={setCurrentUserToNull}/>
                     <Routes>  
-                        <Route path="login" element={currentUser.token !== null? (<Navigate to="/operations" replace />): (<Login/>)}/>
-                        <Route path="signup" element={currentUser.token !== null? (<Navigate to="/operations" replace />): (<Signup/>)}/>
+                        <Route path="login" element={currentUser.token !== null? (<Navigate to="/" replace />): (<Login/>)}/>
+                        <Route path="signup" element={currentUser.token !== null? (<Navigate to="/" replace />): (<Signup/>)}/>
                         <Route path="" element={
                         <ProtectedRoute currentUser={currentUser} setCurrentUserToNull={setCurrentUserToNull}>
                             <Homepage/>

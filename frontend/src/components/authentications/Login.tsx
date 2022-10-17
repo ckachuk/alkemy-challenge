@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import { useNavigate } from "react-router-dom";
 
 const loginInputText = [
     {name: "username", label: "Username", type: "text", minLength: 3},
@@ -44,7 +44,7 @@ const Toast = Swal.mixin({
 const Login = () => {
     const queryClient = useQueryClient()
     const { control, handleSubmit } = useForm<User>();
-    
+    const navigate = useNavigate();
     
     const postLogin = async(user: User)=>{
         const url  = `http://localhost:3000/api/login`;
@@ -70,7 +70,7 @@ const Login = () => {
                 }).then(()=>{
                     localStorage.setItem('token', response.data.token!);
                     localStorage.setItem('user', JSON.stringify(response.data.user));
-                    window.location.href = '/operations';
+                    window.location.reload();
                 });
             }
         }, 

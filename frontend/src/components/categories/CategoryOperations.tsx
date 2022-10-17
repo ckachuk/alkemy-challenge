@@ -32,7 +32,7 @@ interface Operation{
   }
 }
 
-interface Operations{
+interface OperationsTable{
   id:string,
   concept:string,
   amount: number,
@@ -45,7 +45,7 @@ interface Operations{
 function CategoryOperations() {
   const { categoryId } = useParams();
 
-  const [operations, setOperations] = useState<Operations[]>([])
+  const [operations, setOperations] = useState<OperationsTable[]>([])
 
   const { isError, isLoading, data } = useQuery('categoryOperation', async()=>{
     const url = `${process.env.REACT_APP_BASE_URL}/category/${categoryId}`

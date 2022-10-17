@@ -13,6 +13,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const operationInputText = [
     {name: "concept", label: "Concept", type: "text", minLength: 1},
@@ -77,6 +78,7 @@ function OperationForm() {
     const { control, handleSubmit, setValue } = useForm<Operation>();
     const { operationId } = useParams()
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const getCategories = async()=>{
         const response =  await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`,{
@@ -147,7 +149,8 @@ function OperationForm() {
     })
 
     const submitOperation = (data: Operation)=>{
-        operationMutation.mutate({concept: data.concept,amount: data.amount, type: data.type, date: new Date(data.date), categoryId: data.categoryId})        
+        operationMutation.mutate({concept: data.concept,amount: data.amount, type: data.type, date: new Date(data.date), categoryId: data.categoryId}) 
+        navigate('/operations')
     }
 
     if(isErrorCategories || isErrorOperation){

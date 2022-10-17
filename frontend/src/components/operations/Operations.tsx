@@ -7,6 +7,8 @@ import axios from 'axios';
 import OperationTable from '../utils/OperationTable';
 import CircularProgress from '@mui/material/CircularProgress';
 import Swal from 'sweetalert2';
+import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
 
 function operationFactory(
   id:string,
@@ -122,7 +124,10 @@ function Operations() {
   
   
   return (
-    <Box sx={{display:'flex', justifyContent:'center',mt:20, flexDirection:'column'}}>
+    <Box sx={{display:'flex', justifyContent:'center',mt:17, flexDirection:'column'}}>
+      <Box sx={{display:'flex', justifyContent:'flex-end', mr:8, mb:4}}>
+          <Link to='operation'><Button  sx={{backgroundColor: '#b55b59',color: 'white', "&:hover": { backgroundColor:'white', color:'#b55b59'}}}>New operation</Button></Link>
+        </Box>
       <Box sx={{display:'flex', justifyContent:'center', mb:3}}>
         <ToggleButtonGroup
             color="primary"

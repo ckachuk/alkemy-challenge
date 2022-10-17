@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography';
+import { Link } from "react-router-dom";
+import Button from '@mui/material/Button';
 
 function operationFactory(
   id:string,
@@ -82,7 +84,10 @@ function Homepage() {
     })
   }
   return (
-    <Box sx={{display:'flex', justifyContent:'center', mt: 20, flexDirection: 'column'}}>
+    <Box sx={{display:'flex', justifyContent:'center', mt: 17, flexDirection: 'column'}}>
+        <Box sx={{display:'flex', justifyContent:'flex-end', mr:8, mb:4}}>
+          <Link to='operation'><Button  sx={{backgroundColor: '#b55b59',color: 'white', "&:hover": { backgroundColor:'white', color:'#b55b59'}}}>New operation</Button></Link>
+        </Box>
         <Box sx={{display:'flex', justifyContent:'center'}}>
           {isLoading? <CircularProgress/> : null}
           {data !== undefined ?  <OperationTable operations={filteredData(data)}/>: null}

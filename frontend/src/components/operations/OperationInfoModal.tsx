@@ -5,7 +5,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import Fab from '@mui/material/Fab';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-
+import { OperationInfoModalProps } from '../interfaces/appInterfaces';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -16,17 +16,6 @@ const style = {
   bgcolor: 'background.paper',
   p: 4,
 };
-
-interface OperationInfoModalProps{
-  operationInfo:{
-      concept: string,
-      amount: number,
-      type: string,
-      date: Date,
-      category: string,
-  }
-}
-
 
 function OperationInfoModal({operationInfo}: OperationInfoModalProps) {
   const [open, setOpen] = React.useState(false);

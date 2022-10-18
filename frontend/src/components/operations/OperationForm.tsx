@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { CategoriesSelect, ObjectCategory, IOperationForm, ServerResponseOperation } from '../interfaces/appInterfaces';
 
 const operationInputText = [
     {name: "concept", label: "Concept", type: "text", minLength: 1},
@@ -26,39 +27,6 @@ const optionsSelect =[
     {label:'Expense', value: 'Expense'}
 ]
 
-interface CategoriesSelect {
-    value: string,
-    label: string
-}
-
-interface ObjectCategory{
-    id: string, 
-    name: string
-}
-
-interface Operation{
-    concept: string,
-    amount: number,
-    type: string,
-    date: Date,
-    categoryId: string
-}
-
-interface DataResponse{
-    status?: string,
-    message?: string,
-    operation?: {
-        concept: string,
-        amount: number,
-        type: string,
-        date: Date,
-        category: {
-            id: string,
-            name: string,
-        },
-        categoryId: string
-    }
-}
 
 const Toast = Swal.mixin({
     toast: true,
@@ -75,7 +43,7 @@ const Toast = Swal.mixin({
 
 function OperationForm() {
 
-    const { control, handleSubmit, setValue } = useForm<Operation>();
+    const { control, handleSubmit, setValue } = useForm<IOperationForm>();
     const { operationId } = useParams()
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -96,7 +64,7 @@ function OperationForm() {
     const getOperation = async()=>{
         if(operationId !== undefined){
             const url = `${process.env.REACT_APP_BASE_URL}/operation/${operationId}`;
-            const response = await axios.get<DataResponse>(url, {
+            const response = await axios.get<ServerResponseOperation>(url, {
                 headers: {
                     'Authorization' : `Bearer ${localStorage.getItem("token")}`
                 }
@@ -105,9 +73,9 @@ function OperationForm() {
         }
     }
 
-    const postOperation = async(operation : Operation)=>{
+    const postOperation = async(operation : IOperationForm)=>{
         const url = operationId !== undefined ? `${process.env.REACT_APP_BASE_URL}/operation/${operationId}` : `${process.env.REACT_APP_BASE_URL}/operation`
-        return await axios.post<DataResponse>(url, operation, {
+        return await axios.post<ServerResponseOperation>(url, operation, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization' : `Bearer ${localStorage.getItem("token")}`
@@ -148,7 +116,7 @@ function OperationForm() {
         }   
     })
 
-    const submitOperation = (data: Operation)=>{
+    const submitOperation = (data: IOperationForm)=>{
         operationMutation.mutate({concept: data.concept,amount: data.amount, type: data.type, date: new Date(data.date), categoryId: data.categoryId}) 
         navigate('/operations')
     }

@@ -8,30 +8,14 @@ import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Link } from "react-router-dom";
-
-interface OperationActionsProps{
-  operationInfo:{
-    concept: string,
-    amount: number,
-    type: string,
-    date: Date,
-    category: string,
-    operationId: string
-  }
-}
-
-interface DataResponse{
-  status?: string,
-  message?: string,
-}
-
+import { OperationActionsProps, ServerResponseDeleteOperation } from '../interfaces/appInterfaces';
 
 function OperationActions({operationInfo}: OperationActionsProps) {
   const queryClient = useQueryClient()
 
   const deleteOperation = async()=>{
     const url = `${process.env.REACT_APP_BASE_URL}/operation/${operationInfo.operationId}`
-    return await axios.delete<DataResponse>(url, {
+    return await axios.delete<ServerResponseDeleteOperation>(url, {
       headers: {
         'Authorization' : `Bearer ${localStorage.getItem("token")}`
       }

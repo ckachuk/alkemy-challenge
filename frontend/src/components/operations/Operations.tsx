@@ -9,6 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Swal from 'sweetalert2';
 import { Link } from "react-router-dom";
 import Button from '@mui/material/Button';
+import { Operation, ServerResponseGetOperations } from '../interfaces/appInterfaces';
 
 function operationFactory(
   id:string,
@@ -22,23 +23,9 @@ function operationFactory(
   return { id, concept, amount, type, date, category, operationId }  
 }
 
-interface Operation{
-  id: string,
-  concept: string,
-  amount: number,
-  type: string,
-  date: Date,
-  category: {
-    id: string,
-    name: string
-  }
-}
 
-interface DataResponse{
-  status? : string,
-  message? : string,
-  operations? : Operation[]
-}
+
+
 
 function Operations() {
   const [alignment, setAlignment] = React.useState('all');
@@ -52,7 +39,7 @@ function Operations() {
   
   const getAllOperations = async()=>{
     const url = `${process.env.REACT_APP_BASE_URL}/operations`;
-    const response = await axios.get<DataResponse>(url,{
+    const response = await axios.get<ServerResponseGetOperations>(url,{
       headers: {
         'Authorization' : `Bearer ${localStorage.getItem("token")}`
       }
@@ -63,7 +50,7 @@ function Operations() {
 
   const getIncomeOperations = async()=>{
     const url = `${process.env.REACT_APP_BASE_URL}/operations/incomes`;
-    const response = await axios.get<DataResponse>(url,{
+    const response = await axios.get<ServerResponseGetOperations>(url,{
       headers: {
         'Authorization' : `Bearer ${localStorage.getItem("token")}`
       }
@@ -74,7 +61,7 @@ function Operations() {
 
   const getExpenseOperations = async()=>{
     const url = `${process.env.REACT_APP_BASE_URL}/operations/expenses`
-    const response = await axios.get<DataResponse>(url,{
+    const response = await axios.get<ServerResponseGetOperations>(url,{
       headers: {
         'Authorization' : `Bearer ${localStorage.getItem("token")}`
       }
@@ -83,7 +70,7 @@ function Operations() {
     return response.data;
   }
 
-  const filteredData = (data: DataResponse)=>{
+  const filteredData = (data: ServerResponseGetOperations)=>{
     const dataTable = data !== undefined? data.operations?.map((item: Operation, index: number)=>{
       return operationFactory(index.toString(), item.concept, item.amount, item.type, item.date, item.category.name, item.id)
     }) : null

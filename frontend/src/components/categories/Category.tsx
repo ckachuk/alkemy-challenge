@@ -5,15 +5,10 @@ import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import CategoryActions from './CategoryActions';
 import { Link } from "react-router-dom";
+import {CategoryProps} from '../interfaces/appInterfaces';
 
-interface CategoryProps{
-    category: ObjectCategory
-}
 
-interface ObjectCategory{
-    id: string, 
-    name: string
-}
+
 
 function Category({category}: CategoryProps) {
 

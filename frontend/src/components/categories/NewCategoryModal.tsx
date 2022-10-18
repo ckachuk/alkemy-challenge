@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Category, ServerResponseCreateCategory } from '../interfaces/appInterfaces';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -22,16 +23,6 @@ const style = {
   p: 4,
 };
 
-interface Category{
-  name: string
-}
-
-interface DataObject{
-  status?: string,
-  message?: string,
-}
-
-
 function NewCategoryModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -40,7 +31,7 @@ function NewCategoryModal() {
 
   const postCategory = async(category : Category)=>{
     const url = `${process.env.REACT_APP_BASE_URL}/category`
-    return await axios.post<DataObject>(url, category, {
+    return await axios.post<ServerResponseCreateCategory>(url, category, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${localStorage.getItem("token")}`

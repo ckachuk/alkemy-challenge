@@ -6,16 +6,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Swal from 'sweetalert2';
 import Category from './Category';
 import NewCategoryModal from './NewCategoryModal';
+import {ICategories, ObjectCategory} from '../interfaces/appInterfaces';
 
-interface ICategories{
-    categories: Array<ObjectCategory>,
-}
-
-
-interface ObjectCategory{
-    id: string, 
-    name: string
-}
 
 const Toast = Swal.mixin({
     toast: true,

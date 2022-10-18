@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Swal from 'sweetalert2';
 import OperationTable from '../utils/OperationTable';
 import { Typography } from '@mui/material';
+import { Operation, OperationsTable } from '../interfaces/appInterfaces';
 
 function operationFactory(
   id:string,
@@ -18,28 +19,6 @@ function operationFactory(
   operationId: string
 ){
   return { id, concept, amount, type, date, category, operationId }  
-}
-
-interface Operation{
-  id: string,
-  concept: string,
-  amount: number,
-  type: string,
-  date: Date,
-  category: {
-    id: string,
-    name: string
-  }
-}
-
-interface OperationsTable{
-  id:string,
-  concept:string,
-  amount: number,
-  type: string,
-  date: Date,
-  category: string,
-  operationId: string
 }
 
 function CategoryOperations() {

@@ -6,17 +6,9 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import { useQueryClient, useMutation } from 'react-query';
 import Swal from 'sweetalert2';
+import {CategoryActionsProps, ServerResponseDeleteCategory} from '../interfaces/appInterfaces';
 
-interface CategoryActionsProps{
-  categoryId: string
-}
 
-interface DataResponse{
-  data:{
-    status: string,
-    message: string
-  }
-}
 
 function CategoryActions({categoryId}: CategoryActionsProps) {
 
@@ -31,7 +23,7 @@ function CategoryActions({categoryId}: CategoryActionsProps) {
       })
   }
 
-  const deleteCategoryMutation = useMutation<DataResponse>(deleteCategory,{
+  const deleteCategoryMutation = useMutation<ServerResponseDeleteCategory>(deleteCategory,{
     onSuccess: (response)=>{
       queryClient.invalidateQueries()
       Swal.fire({

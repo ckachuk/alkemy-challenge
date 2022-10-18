@@ -12,22 +12,10 @@ import Categories from './components/categories/Categories';
 import CategoryOperations from './components/categories/CategoryOperations';
 import OperationForm from './components/operations/OperationForm';
 import Homepage from './components/Homepage';
+import { CurrentUser, ProtectedRouteProps } from './components/interfaces/appInterfaces';
 
 const queryClient = new QueryClient()
 
-
-interface CurrentUser{
-  user: {
-    username:string
-  } | null,
-  token: string | null,
-}
-
-interface ProtectedRouteProps{
-  currentUser: CurrentUser,
-  children: JSX.Element | JSX.Element[],
-  setCurrentUserToNull: () => void
-}
 
 const ProtectedRoute = ( {currentUser, children, setCurrentUserToNull}: ProtectedRouteProps ) => {
   let decodedToken: any = currentUser.token !== null ? jwt_decode(currentUser.token!): null;
@@ -42,15 +30,11 @@ const ProtectedRoute = ( {currentUser, children, setCurrentUserToNull}: Protecte
       return <Navigate replace to="/login"/>
   }
  
-
   return (<>
     {children}
   </>
 );
 };
-
-
-
 
 function RouterSwitch() {
 

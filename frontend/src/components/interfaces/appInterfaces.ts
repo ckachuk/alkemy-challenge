@@ -160,3 +160,24 @@ export interface ServerResponseGetOperations{
     message? : string,
     operations? : Operation[]
 } 
+
+export interface ServerResponseGetBalance{
+    status? : string,
+    message? : string,
+    operations? : Operation[],
+    balance? : number
+}
+
+export interface CurrentUser{
+    user: {
+      username:string
+    } | null,
+    token: string | null,
+}
+  
+export interface ProtectedRouteProps{
+    currentUser: CurrentUser,
+    children: JSX.Element | JSX.Element[],
+    setCurrentUserToNull: () => void
+}
+  

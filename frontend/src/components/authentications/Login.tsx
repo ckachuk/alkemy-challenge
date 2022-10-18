@@ -35,7 +35,7 @@ const Login = () => {
     const { control, handleSubmit } = useForm<User>();
     
     const postLogin = async(user: User)=>{
-        const url  = `http://localhost:3000/api/login`;
+        const url  = `${process.env.REACT_APP_BASE_URL}/login`;
 
         return await axios.post<ServerResponseLogin>(url, user, {
             headers:{

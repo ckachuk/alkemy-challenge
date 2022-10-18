@@ -4,17 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { Typography } from "@mui/material";
-
-interface NavBarProps{
-    currentUser:{
-        token: string | null,
-        user: {
-            username: string
-        } | null
-    } | null,
-    setCurrentUserToNull: () => void
-}
-
+import { NavBarProps } from '../interfaces/appInterfaces';
 
 function NavbarLogged({currentUser, setCurrentUserToNull}: NavBarProps){
     const navigate = useNavigate();

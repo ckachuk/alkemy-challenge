@@ -10,6 +10,7 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
 import Button from '@mui/material/Button';
+import { Operation, ServerResponseGetBalance } from './interfaces/appInterfaces';
 
 function operationFactory(
   id:string,
@@ -22,26 +23,6 @@ function operationFactory(
 ){
   return { id, concept, amount, type, date, category, operationId }  
 }
-
-interface Operation{
-  id: string,
-  concept: string,
-  amount: number,
-  type: string,
-  date: Date,
-  category: {
-    id: string,
-    name: string
-  }
-}
-
-interface DataResponse{
-  status? : string,
-  message? : string,
-  operations? : Operation[],
-  balance? : number
-}
-
 
 const Toast = Swal.mixin({
   toast: true,
@@ -59,7 +40,7 @@ function Homepage() {
   
   const getBalance = async()=>{
     const url = `${process.env.REACT_APP_BASE_URL}/operations/balance`;
-    const response = await axios.get<DataResponse>(url,{
+    const response = await axios.get<ServerResponseGetBalance>(url,{
       headers: {
         'Authorization' : `Bearer ${localStorage.getItem("token")}`
       }
@@ -70,7 +51,7 @@ function Homepage() {
 
   const {isError, isLoading, data} = useQuery('balance', getBalance);
 
-  const filteredData = (data: DataResponse)=>{
+  const filteredData = (data: ServerResponseGetBalance)=>{
     const dataTable = data !== undefined? data.operations?.map((item: Operation, index: number)=>{
       return operationFactory(index.toString(), item.concept, item.amount, item.type, item.date, item.category.name, item.id)
     }) : null
@@ -83,6 +64,7 @@ function Homepage() {
       icon: 'error'
     })
   }
+
   return (
     <Box sx={{display:'flex', justifyContent:'center', mt: 17, flexDirection: 'column'}}>
         <Box sx={{display:'flex', justifyContent:'flex-end', mr:8, mb:4}}>
